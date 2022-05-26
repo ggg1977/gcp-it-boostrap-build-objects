@@ -1,12 +1,19 @@
 
-data "google_service_account" "sa_terraform_nonprod" {
-  account_id = "sa-iac-terraform-nonprod@${var.build_project_id}.iam.gserviceaccount.com"
+data "terraform_remote_state" "trs_iam_sericeaccounts" {
+    project = var.build_project_id
+    backend = "gcs"
+    config = {
+        bucket="${var.organization}-gcs-it-trf-bld-eus1-001"
+        prefix="gcp-it-boostrap-iam-serviceaccounts/bld"
+    }
 }
+
+
 
 resource "google_cloudbuild_trigger" "gbt_buckets_nonprod" {
   project = var.build_project_id
   name = "gbt-it-cbb-dev-eus1-001"
-  service_account = google_service_account.sa_terraform_nonprod.email
+  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.service_account_nonprod_id
 
   github {
       owner = var.owner
@@ -24,7 +31,7 @@ resource "google_cloudbuild_trigger" "gbt_buckets_nonprod" {
 resource "google_cloudbuild_trigger" "gbt_buckets_prod" {
   project = var.build_project_id
   name = "gbt-it-cbb-prod-eus1-001"
-  service_account = google_service_account.sa_terraform_nonprod.email
+  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.service_account_prod_id
 
   github {
       owner = var.owner
