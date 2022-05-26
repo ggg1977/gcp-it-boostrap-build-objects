@@ -12,7 +12,7 @@ data "terraform_remote_state" "trs_iam_sericeaccounts" {
 resource "google_cloudbuild_trigger" "gbt_buckets_nonprod" {
   project = var.build_project_id
   name = "gbt-it-cbb-dev-eus1-001"
-  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.service_account_nonprod_id
+  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_nonprod_id
 
   github {
       owner = var.owner
@@ -30,7 +30,7 @@ resource "google_cloudbuild_trigger" "gbt_buckets_nonprod" {
 resource "google_cloudbuild_trigger" "gbt_buckets_prod" {
   project = var.build_project_id
   name = "gbt-it-cbb-prod-eus1-001"
-  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.service_account_prod_id
+  service_account = data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_prod_id
 
   github {
       owner = var.owner
