@@ -1,6 +1,5 @@
 
 data "terraform_remote_state" "trs_iam_sericeaccounts" {
-    project = var.build_project_id
     backend = "gcs"
     config = {
         bucket="${var.organization}-gcs-it-trf-bld-eus1-001"
