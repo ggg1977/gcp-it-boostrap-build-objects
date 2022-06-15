@@ -25,7 +25,7 @@ variable "baseline_networking_vpc_repo" {
 }
 
 
-variablle "enable_boostrap_storage_buckets_repo" {
+variable "enable_boostrap_storage_buckets_repo" {
   type    = bool
   default = false
 }
