@@ -54,7 +54,7 @@ resource "google_cloudbuild_trigger" "gbt_vpcs_environments" {
 
   github {
     owner = var.owner
-    name  = var.boostrap_storage_buckets_repo
+    name  = var.baseline_networking_vpc_repo
     push {
       branch = ".*"
     }
