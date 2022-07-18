@@ -10,6 +10,9 @@ build_project_id              = <build project id>
 owner                         = <github owner> 
 organization                  = <your organization name>
 
+enable_boostrap_storage_buckets_repo = false
+enable_baseline_networking_vpc_repo =  false
+
 
 ## Setting values on couldbuild.yaml
 
@@ -17,4 +20,13 @@ Go to the cloudbuild.yaml file and set the org right value in this section
 
 env:
     - 'ORG=<your organization name>'
+
+
+## Pushing the changes
+
+1. Push the new changes to the repo
+
+git add .
+git commit -m "<your message>"
+git push
 
