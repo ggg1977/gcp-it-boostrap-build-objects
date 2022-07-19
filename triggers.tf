@@ -8,6 +8,7 @@ data "terraform_remote_state" "trs_iam_sericeaccounts" {
 }
 
 
+## GCS buckets
 
 resource "google_cloudbuild_trigger" "gbt_buckets_nonprod" {
   count           = var.deploy_infra && var.enable_boostrap_storage_buckets_repo ? 1 : 0
@@ -45,6 +46,7 @@ resource "google_cloudbuild_trigger" "gbt_buckets_prod" {
   filename = "cloudbuild.yaml"
 }
 
+## VPCs
 
 resource "google_cloudbuild_trigger" "gbt_vpcs_environments" {
   count           = var.deploy_infra && var.enable_baseline_networking_vpc_repo ? 1 : 0
@@ -62,3 +64,43 @@ resource "google_cloudbuild_trigger" "gbt_vpcs_environments" {
 
   filename = "cloudbuild.yaml"
 }
+
+
+## Dns zones
+
+resource "google_cloudbuild_trigger" "gbt_dns_dev" {
+  count           = var.deploy_infra && var.enable_baseline_networking_vpc_repo ? 1 : 0
+  project         = var.build_project_id
+  name            = "gbt-it-dns-dev-eus1-001"
+  service_account = tolist(data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_nonprod_id)[0]
+
+  github {
+    owner = var.owner
+    name  = var.baseline_networking_dns_repo
+    push {
+      branch = "^prod$"
+      invert_regex = true
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}
+
+
+resource "google_cloudbuild_trigger" "gbt_dns_prod" {
+  count           = var.deploy_infra && var.enable_baseline_networking_dns_repo ? 1 : 0
+  project         = var.build_project_id
+  name            = "gbt-it-dns-prod-eus1-001"
+  service_account = tolist(data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_prod_id)[0]
+
+  github {
+    owner = var.owner
+    name  = var.baseline_networking_dns_repo
+    push {
+      branch       = "^prod$"
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}
+

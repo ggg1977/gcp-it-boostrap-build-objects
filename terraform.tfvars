@@ -15,7 +15,7 @@ enable_baseline_networking_vpc_repo = true
 
 
 # Enable build on "gcp-it-baseline-networking-dns" 
-enable_baseline_networking_dns_repo = false
+enable_baseline_networking_dns_repo = true
 
 # Enable build on "gcp-it-baseline-gke-infrastructure" 
-enable_baseline_gke_infra_repo      = false
+enable_baseline_gke_infra_repo = false
