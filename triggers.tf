@@ -104,3 +104,41 @@ resource "google_cloudbuild_trigger" "gbt_dns_prod" {
   filename = "cloudbuild.yaml"
 }
 
+
+## GKE
+
+resource "google_cloudbuild_trigger" "gbt_gke_dev" {
+  count           = var.deploy_infra && var.enable_baseline_gke_infra_repo ? 1 : 0
+  project         = var.build_project_id
+  name            = "gbt-it-gke-dev-eus1-001"
+  service_account = tolist(data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_nonprod_id)[0]
+
+  github {
+    owner = var.owner
+    name  = var.baseline_gke_infra_repo
+    push {
+      branch = "^prod$"
+      invert_regex = true
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}
+
+
+resource "google_cloudbuild_trigger" "gbt_gke_prod" {
+  count           = var.deploy_infra && var.enable_baseline_gke_infra_repo ? 1 : 0
+  project         = var.build_project_id
+  name            = "gbt-it-gke-prod-eus1-001"
+  service_account = tolist(data.terraform_remote_state.trs_iam_sericeaccounts.outputs.service_account_prod_id)[0]
+
+  github {
+    owner = var.owner
+    name  = var.baseline_gke_infra_repo
+    push {
+      branch       = "^prod$"
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}
