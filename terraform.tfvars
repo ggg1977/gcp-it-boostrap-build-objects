@@ -1,6 +1,6 @@
-build_project_id              = "bogota-bod-build"
-owner                         = "ericklife28"
-organization                  = "bodendava"
+build_project_id              = "ggg-build"
+owner                         = "ggg1977"
+organization                  = "badgggorgg"
 deploy_infra                  = true
 boostrap_storage_buckets_repo = "gcp-it-boostrap-storage-buckets"
 baseline_networking_vpc_repo  = "gcp-it-baseline-networking-vcp"
